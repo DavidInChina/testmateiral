@@ -5,16 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import io.material.rally.R
-import kotlinx.android.synthetic.main.activity_main.tab_layout
-import kotlinx.android.synthetic.main.activity_main.view_pager
+import io.material.rally.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+  private lateinit var binding: ActivityMainBinding
+
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
     if (savedInstanceState == null) runEnterAnimation()
     setUpViewPager()
@@ -22,22 +22,22 @@ class MainActivity : AppCompatActivity() {
 
   private fun setUpViewPager() {
     val tabs = generateTabs()
-    view_pager.adapter = RallyPagerAdapter(supportFragmentManager, tabs)
-    view_pager.offscreenPageLimit = 0
-    tab_layout.setUpWithViewPager(view_pager, false)
+    binding.viewPager.adapter = RallyPagerAdapter(supportFragmentManager, tabs)
+    binding.viewPager.offscreenPageLimit = 0
+    binding.tabLayout.setUpWithViewPager(binding.viewPager, false)
 
-    view_pager.setCurrentItem(0, true)
+    binding.viewPager.setCurrentItem(0, true)
   }
 
   fun navigateToTabs(item: TabItem) {
-    view_pager.setCurrentItem(item.position, true)
+    binding.viewPager.setCurrentItem(item.position, true)
   }
 
   private fun runEnterAnimation() {
-    tab_layout.post {
-      tab_layout.translationY -= tab_layout.height.toFloat()
-      tab_layout.alpha = 0f
-      tab_layout.animate()
+    binding.tabLayout.post {
+      binding.tabLayout.translationY -= binding.tabLayout.height.toFloat()
+      binding.tabLayout.alpha = 0f
+      binding.tabLayout.animate()
           .translationY(0f)
           .setInterpolator(AccelerateDecelerateInterpolator())
           .alpha(1f)
@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   override fun onBackPressed() {
-    if (view_pager.currentItem != 0) {
-      view_pager.currentItem = 0
+    if (binding.viewPager.currentItem != 0) {
+      binding.viewPager.currentItem = 0
       return
     }
     super.onBackPressed()

@@ -8,7 +8,6 @@ import io.material.rally.R
 import io.material.rally.ui.account.AccountFragment
 import io.material.rally.ui.bill.BillFragment
 import io.material.rally.ui.budget.BudgetFragment
-import io.material.rally.ui.overview.OverviewFragment
 import io.material.rally.ui.settings.SettingsFragment
 
 /**
@@ -20,12 +19,12 @@ class RallyPagerAdapter(
 ) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
   override fun getItem(position: Int): Fragment {
     return when (position) {
-      0 -> OverviewFragment()
-      1 -> AccountFragment()
-      2 -> BillFragment()
-      3 -> BudgetFragment()
-      4 -> SettingsFragment()
-      else -> OverviewFragment()
+//      0 -> OverviewFragment()
+      0 -> AccountFragment()
+      1 -> BillFragment()
+      2 -> BudgetFragment()
+      43-> SettingsFragment()
+      else -> AccountFragment()
     }
   }
 

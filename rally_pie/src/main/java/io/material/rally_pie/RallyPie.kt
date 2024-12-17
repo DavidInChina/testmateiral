@@ -69,13 +69,11 @@ class RallyPie @JvmOverloads constructor(
         centerY = rect.centerY()
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-
+    override fun onDraw(canvas: Canvas) {
         paint.color = colorPrimary
-        canvas?.drawCircle(centerX , centerY , chartRadius + STROKE , paint)
+        canvas.drawCircle(centerX , centerY , chartRadius + STROKE , paint)
 
-        canvas?.apply {
+        canvas.apply {
             rallyPieFinalRenderData.forEachIndexed { index, it ->
                 paint.color = it.color
                 drawArc(

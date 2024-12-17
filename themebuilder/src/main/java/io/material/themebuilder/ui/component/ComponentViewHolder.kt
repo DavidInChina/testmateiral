@@ -46,7 +46,6 @@ import io.material.themebuilder.ui.component.Component.TABS
 import io.material.themebuilder.ui.component.Component.SNACKBAR
 import io.material.themebuilder.ui.component.Component.DIALOG
 import io.material.themebuilder.ui.component.Component.BOTTOM_SHEET
-import kotlinx.android.synthetic.main.component_tabs.view.*
 
 /**
  * Sealed class to define all [RecyclerView.ViewHolder]s used to display [Component]s.

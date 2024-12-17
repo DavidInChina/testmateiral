@@ -1,61 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/content"
     android:theme="@style/ThemeOverlay.Rally.AccountDetail"
-    tools:context=".ui.detail.DetailActivity"
-    >
+    tools:context=".ui.detail.DetailActivity">
 
-  <View
-      android:id="@+id/shareView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:transitionName="DetailView"
-      android:background="#373741"
-      />
-
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical"
-      >
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/include_toolbar"/>
-
-    <io.material.rally_line_chart.RallyLineGraphChart
-        android:id="@+id/rallyLine"
+    <View
+        android:id="@+id/shareView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_gravity="center"
-        app:curveTopMargin="@dimen/spacing_large"
-        app:barColor="@color/color_on_surface_20"
-        app:curveFillColor="?attr/colorSurface"
-        app:curveBorderColor="@color/rally_dark_green"
-        />
+        android:layout_height="match_parent"
+        android:background="#373741"
+        android:transitionName="DetailView" />
 
-    <com.example.rally_scrollable_tab.RallyScrollableTab
-        android:id="@+id/tab"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:selectedColor="?attr/colorOnSurface"
-        app:unSelectedColor="@color/color_on_surface_20"
-        android:background="?attr/colorSurface"
-        app:tabTextAppearance="?attr/textAppearanceButton"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-      <androidx.viewpager.widget.ViewPager
-          android:id="@+id/viewPager"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="vertical"
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
-  </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/label_checking"
+                android:textAppearance="?attr/textAppearanceSubtitle1" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <io.material.rally_line_chart.RallyLineGraphChart
+            android:id="@+id/rallyLine"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            app:barColor="@color/color_on_surface_20"
+            app:curveBorderColor="@color/rally_dark_green"
+            app:curveFillColor="?attr/colorSurface"
+            app:curveTopMargin="@dimen/spacing_large" />
+
+        <com.example.rally_scrollable_tab.RallyScrollableTab
+            android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface"
+            app:selectedColor="?attr/colorOnSurface"
+            app:tabTextAppearance="?attr/textAppearanceButton"
+            app:unSelectedColor="@color/color_on_surface_20" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
 </FrameLayout>

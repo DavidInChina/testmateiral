@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.material.rally.R
 import io.material.rally.data.DataProvider
 import io.material.rally.extension.getRallyItemDecoration
 import io.material.rally.extension.toUSDFormatted
@@ -16,15 +15,12 @@ import io.material.rally.ui.overview.adapter.BillAdapter
 import io.material.rally_pie.RallyPieAnimation
 import io.material.rally_pie.RallyPieData
 import io.material.rally_pie.RallyPiePortion
-import kotlinx.android.synthetic.main.fragment_bill.btn_info
-import kotlinx.android.synthetic.main.fragment_bill.rallyPie
-import kotlinx.android.synthetic.main.fragment_bill.rv_bill
-import kotlinx.android.synthetic.main.fragment_bill.tvAmount
+import io.material.rally.databinding.FragmentBillBinding // 自动生成的绑定类
 
-/**
- * Created by Chan Myae Aung on 8/13/19.
- */
 class BillFragment : Fragment() {
+
+  private var _binding: FragmentBillBinding? = null
+  private val binding get() = _binding!!
 
   private val billAdapter by lazy { BillAdapter() }
 
@@ -33,7 +29,8 @@ class BillFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return inflater.inflate(R.layout.fragment_bill, container, false)
+    _binding = FragmentBillBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
   override fun onViewCreated(
@@ -42,36 +39,32 @@ class BillFragment : Fragment() {
   ) {
     super.onViewCreated(view, savedInstanceState)
 
-
     setUpPieView()
     setUpRecyclerView()
 
-
-    btn_info.setOnClickListener {
+    binding.btnInfo.setOnClickListener {
       val infoFragment = InfoFragment()
       infoFragment.show(childFragmentManager, "BillInfo")
     }
   }
 
   private fun setUpPieView() {
-    tvAmount.text = DataProvider.billOverView.total.toUSDFormatted()
+    binding.tvAmount.text = DataProvider.billOverView.total.toUSDFormatted()
     val rallyPiePortions = DataProvider.billOverView.bills.map {
       RallyPiePortion(
-          it.name, it.amount, ContextCompat.getColor(requireContext(), it.color)
+        it.name, it.amount, ContextCompat.getColor(requireContext(), it.color)
       )
     }
-        .toList()
     val rallyPieData = RallyPieData(portions = rallyPiePortions)
-    val rallyPieAnimation = RallyPieAnimation(rallyPie).apply {
+    val rallyPieAnimation = RallyPieAnimation(binding.rallyPie).apply {
       duration = 600
     }
 
-
-    rallyPie.setPieData(pieData = rallyPieData, animation = rallyPieAnimation)
+    binding.rallyPie.setPieData(pieData = rallyPieData, animation = rallyPieAnimation)
   }
 
   private fun setUpRecyclerView() {
-    rv_bill.apply {
+    binding.rvBill.apply {
       layoutManager = LinearLayoutManager(requireContext())
       setHasFixedSize(true)
       addItemDecoration(getRallyItemDecoration())
@@ -80,4 +73,8 @@ class BillFragment : Fragment() {
     billAdapter.submitList(DataProvider.billOverView.bills)
   }
 
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null // 防止内存泄漏
+  }
 }

@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.material.rally.R
 import io.material.rally.data.DataProvider
 import io.material.rally.extension.getRallyItemDecoration
 import io.material.rally.extension.toUSDFormatted
@@ -17,69 +15,67 @@ import io.material.rally.ui.overview.adapter.AccountOverviewAdapter
 import io.material.rally_pie.RallyPieAnimation
 import io.material.rally_pie.RallyPieData
 import io.material.rally_pie.RallyPiePortion
-import kotlinx.android.synthetic.main.fragment_account.btn_info
-import kotlinx.android.synthetic.main.fragment_account.rallyPie
-import kotlinx.android.synthetic.main.fragment_account.rv_account
-import kotlinx.android.synthetic.main.fragment_account.tvAmount
-
-/**
- * Created by Chan Myae Aung on 8/1/19.
- */
+import io.material.rally.databinding.FragmentAccountBinding // 自动生成的绑定类
 
 class AccountFragment : Fragment() {
 
-  private val accountAdapter by lazy { AccountOverviewAdapter(isSingleLine = false) }
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_account, container, false)
-  }
+    private val accountAdapter by lazy { AccountOverviewAdapter(isSingleLine = false) }
 
-  override fun onViewCreated(
-    view: View,
-    savedInstanceState: Bundle?
-  ) {
-    super.onViewCreated(view, savedInstanceState)
-
-    setUpPieView()
-    setUpRecyclerView()
-    btn_info.setOnClickListener {
-      val infoFragment = InfoFragment()
-      infoFragment.show(childFragmentManager, "AccountInfo")
-    }
-  }
-
-  private fun setUpPieView() {
-
-    tvAmount.text = DataProvider.accountOverView.total.toUSDFormatted()
-
-    val rallyPiePortions = DataProvider.accountOverView.accounts.map {
-      RallyPiePortion(
-          it.name, it.amount, ContextCompat.getColor(requireContext(), it.color)
-      )
-    }
-        .toList()
-
-    val rallyPieData = RallyPieData(portions = rallyPiePortions)
-    val rallyPieAnimation = RallyPieAnimation(rallyPie).apply {
-      duration = 600
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentAccountBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
 
-    rallyPie.setPieData(pieData = rallyPieData, animation = rallyPieAnimation)
-  }
-
-  private fun setUpRecyclerView() {
-    rv_account.apply {
-      layoutManager = LinearLayoutManager(requireContext())
-      setHasFixedSize(true)
-      addItemDecoration(getRallyItemDecoration())
-      adapter = accountAdapter
+        setUpPieView()
+        setUpRecyclerView()
+        binding.btnInfo.setOnClickListener {
+            val infoFragment = InfoFragment()
+            infoFragment.show(childFragmentManager, "AccountInfo")
+        }
     }
-    accountAdapter.submitList(DataProvider.accountOverView.accounts)
-  }
 
+    private fun setUpPieView() {
+        binding.tvAmount.text = DataProvider.accountOverView.total.toUSDFormatted()
+
+        val rallyPiePortions = DataProvider.accountOverView.accounts.map {
+            RallyPiePortion(
+                it.name, it.amount, ContextCompat.getColor(requireContext(), it.color)
+            )
+        }
+
+        val rallyPieData = RallyPieData(portions = rallyPiePortions)
+        val rallyPieAnimation = RallyPieAnimation(binding.rallyPie).apply {
+            duration = 600
+        }
+
+        binding.rallyPie.setPieData(pieData = rallyPieData, animation = rallyPieAnimation)
+    }
+
+    private fun setUpRecyclerView() {
+        binding.rvAccount.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            addItemDecoration(getRallyItemDecoration())
+            adapter = accountAdapter
+        }
+        accountAdapter.submitList(DataProvider.accountOverView.accounts)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // 防止内存泄漏
+    }
 }

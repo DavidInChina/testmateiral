@@ -6,35 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.material.rally.R
 import io.material.rally.data.DataProvider
+import io.material.rally.databinding.FragmentMonthlyBinding
 import io.material.rally.extension.getRallyItemDecoration
-import kotlinx.android.synthetic.main.fragment_monthly.rv_monthly
 
-/**
- * Created by Chan Myae Aung on 8/4/19.
- */
 class MonthlyFragment : Fragment() {
+
+  private var _binding: FragmentMonthlyBinding? = null
+  private val binding get() = _binding!!
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_monthly, container, false)
+  ): View {
+    _binding = FragmentMonthlyBinding.inflate(inflater, container, false)
+    return binding.root
   }
 
-  override fun onViewCreated(
-    view: View,
-    savedInstanceState: Bundle?
-  ) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
     setUpRecyclerView()
   }
 
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null // 防止内存泄漏
+  }
+
   private fun setUpRecyclerView() {
-    rv_monthly.apply {
+    binding.rvMonthly.apply {
       layoutManager = LinearLayoutManager(requireContext())
       setHasFixedSize(true)
       addItemDecoration(getRallyItemDecoration())

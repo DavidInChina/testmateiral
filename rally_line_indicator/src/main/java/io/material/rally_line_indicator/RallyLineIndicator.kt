@@ -30,7 +30,7 @@ class RallyLineIndicator @JvmOverloads constructor(
     color = Color.GREEN
   }
 
-  override fun onDraw(canvas: Canvas?) {
+  override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
 
     val width = measuredWidth.toFloat()

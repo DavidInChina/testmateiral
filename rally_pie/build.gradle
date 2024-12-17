@@ -1,10 +1,12 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    namespace 'io.material.rally_pie'
+    compileSdk 34
 
 
     defaultConfig {
@@ -26,9 +28,12 @@ android {
 
     android {
         compileOptions {
-            sourceCompatibility 1.8
-            targetCompatibility 1.8
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
 }

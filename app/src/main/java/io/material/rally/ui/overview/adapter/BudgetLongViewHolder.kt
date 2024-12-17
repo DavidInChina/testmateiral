@@ -6,14 +6,8 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import io.material.design_system.R as designR
-import io.material.rally.data.model.Budget
-import android.R.attr.data
-import android.content.res.TypedArray
-import android.util.TypedValue
-import android.content.Context
 import io.material.rally.R
-import io.material.rally.R.attr
+import io.material.rally.data.model.Budget
 import io.material.rally.ui.detail.DetailActivity
 
 /**
@@ -35,8 +29,8 @@ class BudgetLongViewHolder(val view: View) : BudgetViewHolder(view) {
     barView.progress = ((model.spend / model.total) * 100).toInt()
     barView.progressTintList =
         ColorStateList.valueOf(ContextCompat.getColor(itemView.context, model.color))
-    barView.progressBackgroundTintList =
-      ColorStateList.valueOf(fetchPrimaryColor(itemView.context))
+//    barView.progressBackgroundTintList =
+//      ColorStateList.valueOf(fetchPrimaryColor(itemView.context))
 
     barView.max = 100
 
@@ -66,14 +60,4 @@ class BudgetLongViewHolder(val view: View) : BudgetViewHolder(view) {
     }
   }
 
-  private fun fetchPrimaryColor(context : Context): Int {
-    val typedValue = TypedValue()
-
-    val a = context.obtainStyledAttributes(typedValue.data, intArrayOf(attr.colorSecondaryVariant))
-    val color = a.getColor(0, 0)
-
-    a.recycle()
-
-    return color
-  }
 }

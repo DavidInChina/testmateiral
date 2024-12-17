@@ -121,7 +121,7 @@ class RallyLineGraphChart : View {
     drawVerticalBars(viewCanvas)
   }
 
-  override fun onDraw(canvas: Canvas?) {
+  override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
 
     drawBezierCurve(canvas)
